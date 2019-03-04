@@ -1,8 +1,41 @@
 package net.corda.finance
 
 import net.corda.core.contracts.Amount
+import net.corda.core.internal.deleteRecursively
+import net.corda.core.internal.div
+import net.corda.testing.core.BOB_NAME
+import net.corda.testing.node.internal.FINANCE_WORKFLOWS_CORDAPP
+import net.corda.testing.node.internal.InternalMockNetwork
+import net.corda.testing.node.internal.findCordapp
+import org.junit.After
 import org.junit.Test
 import kotlin.test.assertEquals
+
+class TestTest {
+    private val mockNet = InternalMockNetwork(cordappsForAllNodes = listOf(FINANCE_WORKFLOWS_CORDAPP))
+
+    @After
+    fun cleanUp() {
+        mockNet.stopNodes()
+    }
+
+//    @Test
+//    fun restart() {
+//        var bob = mockNet.createPartyNode(legalName = ALICE_NAME)
+//        mockNet.runNetwork()
+//        bob = mockNet.restartNode(bob)
+//        mockNet.runNetwork()
+//    }
+
+    @Test
+    fun `delete jar`() {
+        val bob = mockNet.createPartyNode(legalName = BOB_NAME)
+        mockNet.runNetwork()
+        bob.dispose()
+        mockNet.runNetwork()
+        (mockNet.baseDirectory(bob) / "cordapps").deleteRecursively()
+    }
+}
 
 class CurrenciesTests {
     @Test
