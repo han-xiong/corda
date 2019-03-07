@@ -31,7 +31,8 @@ private class MultiplexingReactiveArtemisConsumer(private val queueNames: Set<St
     private var startedFlag = false
     override var connected = false
 
-    override val messages: PublishSubject<ClientMessage> = PublishSubject.create<ClientMessage>()
+    override val messages: PublishSubject<ClientMessage> =
+            PublishSubject.create<ClientMessage>()
 
     private val consumers = mutableSetOf<ClientConsumer>()
     private val sessions = mutableSetOf<ClientSession>()

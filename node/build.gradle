@@ -182,6 +182,8 @@ dependencies {
 
     // Jolokia JVM monitoring agent
     compile "org.jolokia:jolokia-jvm:${jolokia_version}:agent"
+
+    compile 'mysql:mysql-connector-java:5.1.47'
 }
 
 task integrationTest(type: Test) {

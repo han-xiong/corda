@@ -48,16 +48,23 @@ open class NodeStartup(val args: Array<String>) {
      */
     open fun run(): Boolean {
         val startTime = System.currentTimeMillis()
-        if (!canNormalizeEmptyPath()) {
+
+        /**
+         FIXME 为了启动快速, 注释掉一些可在运行前检查的部分
+         if (!canNormalizeEmptyPath()) {
             println("You are using a version of Java that is not supported (${System.getProperty("java.version")}). Please upgrade to the latest version.")
             println("Corda will now exit...")
             return false
-        }
+        }*/
+
+        // FIXME 查看是否可以注释掉
         val registrationMode = checkRegistrationMode()
         val (argsParser, cmdlineOptions) = parseArguments(registrationMode)
         // We do the single node check before we initialise logging so that in case of a double-node start it
         // doesn't mess with the running node's logs.
-        enforceSingleNodeIsRunning(cmdlineOptions.baseDirectory)
+
+        // FIXME 这个暂时注释, 因为端口号不能被重复使用.
+        //enforceSingleNodeIsRunning(cmdlineOptions.baseDirectory)
 
         initLogging(cmdlineOptions)
 
@@ -290,6 +297,7 @@ open class NodeStartup(val args: Array<String>) {
         val pidFile = (baseDirectory / "process-id").toFile()
         pidFile.createNewFile()
         val pidFileRw = RandomAccessFile(pidFile, "rw")
+        // 使用java nio的某些方法确认文件是否被io占用
         val pidFileLock = pidFileRw.channel.tryLock()
         if (pidFileLock == null) {
             println("It appears there is already a node running with the specified data directory $baseDirectory")

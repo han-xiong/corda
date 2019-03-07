@@ -38,6 +38,7 @@ lib/quasar.jar
 .idea/runConfigurations
 .idea/dictionaries
 .idea/codeStyles/
+.idea
 /gradle-plugins/.idea/
 
 # Include the -parameters compiler option by default in IntelliJ required for serialization.

@@ -28,9 +28,11 @@ open class SendTransactionFlow(otherSide: FlowSession, stx: SignedTransaction) :
  */
 open class SendStateAndRefFlow(otherSideSession: FlowSession, stateAndRefs: List<StateAndRef<*>>) : DataVendingFlow(otherSideSession, stateAndRefs)
 
+//
 open class DataVendingFlow(val otherSideSession: FlowSession, val payload: Any) : FlowLogic<Void?>() {
     @Suspendable
-    protected open fun sendPayloadAndReceiveDataRequest(otherSideSession: FlowSession, payload: Any) = otherSideSession.sendAndReceive<FetchDataFlow.Request>(payload)
+    protected open fun sendPayloadAndReceiveDataRequest(otherSideSession: FlowSession, payload: Any) =
+            otherSideSession.sendAndReceive<FetchDataFlow.Request>(payload)
 
     @Suspendable
     protected open fun verifyDataRequest(dataRequest: FetchDataFlow.Request.Data) {
@@ -44,12 +46,13 @@ open class DataVendingFlow(val otherSideSession: FlowSession, val payload: Any) 
         // This loop will receive [FetchDataFlow.Request] continuously until the `otherSideSession` has all the data they need
         // to resolve the transaction, a [FetchDataFlow.EndRequest] will be sent from the `otherSideSession` to indicate end of
         // data request.
+        // payload是公证人签名过的数据
         while (true) {
             val dataRequest = sendPayloadAndReceiveDataRequest(otherSideSession, payload).unwrap { request ->
                 when (request) {
                     is FetchDataFlow.Request.Data -> {
                         // Security TODO: Check for abnormally large or malformed data requests
-                        verifyDataRequest(request)
+                        //verifyDataRequest(request)
                         request
                     }
                     FetchDataFlow.Request.End -> return null

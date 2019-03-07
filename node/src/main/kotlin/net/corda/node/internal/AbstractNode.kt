@@ -199,9 +199,11 @@ abstract class AbstractNode(val configuration: NodeConfiguration,
         networkMapClient = configuration.networkServices?.let { NetworkMapClient(it.networkMapURL, identityService.trustRoot, versionInfo) }
         val networkParameteresReader = NetworkParametersReader(identityService.trustRoot, networkMapClient, configuration.baseDirectory)
         val networkParameters = networkParameteresReader.networkParameters
-        check(networkParameters.minimumPlatformVersion <= versionInfo.platformVersion) {
-            "Node's platform version is lower than network's required minimumPlatformVersion"
-        }
+
+        // FIXME 注释掉
+//        check(networkParameters.minimumPlatformVersion <= versionInfo.platformVersion) {
+//            "Node's platform version is lower than network's required minimumPlatformVersion"
+//        }
 
         // Do all of this in a database transaction so anything that might need a connection has one.
         val (startedImpl, schedulerService) = initialiseDatabasePersistence(schemaService, identityService) { database ->

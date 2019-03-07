@@ -46,6 +46,7 @@ class NetworkParametersReader(private val trustRoot: X509Certificate,
             //  on the other we have parameters update process - it needs to be unified. Say you start the node, you don't have matching parameters,
             //  you get them from network map, but you have to run the approval step.
             if (signedParametersFromFile == null) { // Node joins for the first time.
+                // FIXME 从mapserver获取证书, 这步骤需要修改
                 downloadParameters(advertisedParametersHash)
             } else if (signedParametersFromFile.raw.hash == advertisedParametersHash) { // Restarted with the same parameters.
                 signedParametersFromFile
