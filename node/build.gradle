@@ -183,6 +183,7 @@ dependencies {
     // Jolokia JVM monitoring agent
     compile "org.jolokia:jolokia-jvm:${jolokia_version}:agent"
 
+    // mysql驱动
     compile 'mysql:mysql-connector-java:5.1.47'
 }
 
